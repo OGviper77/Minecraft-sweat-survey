@@ -1,0 +1,131 @@
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+  .mc-container {
+    max-width: 700px;
+    margin: auto;
+    padding: 20px;
+    background: #3c3f41;
+    border: 4px solid #000;
+    font-family: 'Press Start 2P', monospace;
+    color: #fff;
+    image-rendering: pixelated;
+  }
+
+  .mc-title {
+    background: #6aa84f;
+    padding: 10px;
+    border: 4px solid #000;
+    text-align: center;
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+
+  .mc-question {
+    background: #4a86e8;
+    padding: 10px;
+    border: 3px solid #000;
+    margin-top: 20px;
+    font-size: 14px;
+  }
+
+  .mc-option {
+    display: block;
+    margin: 8px 0;
+    cursor: pointer;
+  }
+
+  .mc-button {
+    margin-top: 25px;
+    padding: 12px 20px;
+    background: #6aa84f;
+    border: 4px solid #000;
+    cursor: pointer;
+    font-size: 14px;
+    text-align: center;
+  }
+
+  .mc-button:hover {
+    background: #38761d;
+  }
+
+  #result {
+    margin-top: 25px;
+    padding: 15px;
+    background: #000;
+    border: 4px solid #fff;
+    font-size: 14px;
+    white-space: pre-line;
+  }
+</style>
+
+<div class="mc-container">
+  <div class="mc-title">Minecraft Sweat Survey</div>
+
+  <form id="quizForm">
+
+    <div class="mc-question">1. How often do you practice PvP mechanics?</div>
+    <label class="mc-option"><input type="radio" name="q1" value="A"> A: Every time I log in</label>
+    <label class="mc-option"><input type="radio" name="q1" value="B"> B: A few times a week</label>
+    <label class="mc-option"><input type="radio" name="q1" value="C"> C: Almost never</label>
+    <label class="mc-option"><input type="radio" name="q1" value="D"> D: Only when I feel like sweating</label>
+
+    <div class="mc-question">2. What is your typical CPS?</div>
+    <label class="mc-option"><input type="radio" name="q2" value="A"> A: 13+ CPS (jitter/drag)</label>
+    <label class="mc-option"><input type="radio" name="q2" value="B"> B: 7–9 CPS</label>
+    <label class="mc-option"><input type="radio" name="q2" value="C"> C: 4–6 CPS</label>
+    <label class="mc-option"><input type="radio" name="q2" value="D"> D: 10–12 CPS</label>
+
+    <div class="mc-question">3. How do you move in fights?</div>
+    <label class="mc-option"><input type="radio" name="q3" value="A"> A: Advanced resets + strafes</label>
+    <label class="mc-option"><input type="radio" name="q3" value="B"> B: Consistent strafing</label>
+    <label class="mc-option"><input type="radio" name="q3" value="C"> C: Walk forward & swing</label>
+    <label class="mc-option"><input type="radio" name="q3" value="D"> D: Random strafes</label>
+
+    <div class="mc-question">4. How do you react when you lose?</div>
+    <label class="mc-option"><input type="radio" name="q4" value="A"> A: Analyze & adjust settings</label>
+    <label class="mc-option"><input type="radio" name="q4" value="B"> B: Queue instantly</label>
+    <label class="mc-option"><input type="radio" name="q4" value="C"> C: Shrug it off</label>
+    <label class="mc-option"><input type="radio" name="q4" value="D"> D: Try again later</label>
+
+    <div class="mc-question">5. How optimized are your settings?</div>
+    <label class="mc-option"><input type="radio" name="q5" value="A"> A: Fully optimized</label>
+    <label class="mc-option"><input type="radio" name="q5" value="B"> B: Tuned basics</label>
+    <label class="mc-option"><input type="radio" name="q5" value="C"> C: Default everything</label>
+    <label class="mc-option"><input type="radio" name="q5" value="D"> D: Changed a few things</label>
+
+    <div class="mc-button" onclick="calculateResult()">Show Result</div>
+  </form>
+
+  <div id="result"></div>
+</div>
+
+<script>
+function calculateResult() {
+  const form = document.getElementById("quizForm");
+  const data = new FormData(form);
+
+  let counts = {A:0, B:0, C:0, D:0};
+
+  for (let value of data.values()) {
+    counts[value]++;
+  }
+
+  let highest = Object.keys(counts).reduce((a, b) => counts[a] > counts[b] ? a : b);
+
+  let resultText = "";
+
+  if (highest === "A") {
+    resultText = "🔥 SWEAT: You optimize everything and dominate fights.";
+  } else if (highest === "B") {
+    resultText = "⚔️ TRYHARD: You care about winning but stay chill.";
+  } else if (highest === "C") {
+    resultText = "😎 CASUAL: You play for fun and vibes.";
+  } else if (highest === "D") {
+    resultText = "🌙 SEMI‑SWEAT: You sweat when it matters.";
+  }
+
+  document.getElementById("result").innerText =
+    `A: ${counts.A} | B: ${counts.B} | C: ${counts.C} | D: ${counts.D}\n\n${resultText}`;
+}
+</script>
